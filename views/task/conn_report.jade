@@ -1,0 +1,10 @@
+extends ../layout/task_layout
+
+block content
+    div
+        h3 Server Status
+        div
+            p Total Workers: #{users.total}
+            p Dead Workers: #{users.death}
+            p Alive Workers: #{users.alive}
+            p IP Address: #{connection.connected_from}

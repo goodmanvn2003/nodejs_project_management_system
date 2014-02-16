@@ -1,0 +1,182 @@
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet', href='/stylesheets/ink/ink.css')
+    link(rel='stylesheet', href='/stylesheets/toast/toast.min.css')
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    script(type='text/javascript', src='/javascripts/vendor/jquery.js')
+    script(type='text/javascript', src='/javascripts/vendor/knockback.js')
+    script(type='text/javascript', src='/javascripts/vendor/ink/ink.min.js')
+    script(type='text/javascript', src='/javascripts/vendor/ink/ink.modal.js')
+    script(type='text/javascript', src='/javascripts/vendor/ink/autoload.js')
+    script(type='text/javascript', src='/javascripts/vendor/toast/toast.min.js')
+  body
+    // Task Creation Dialog
+    div(class="ink-shade")
+        div(class="ink-modal", data-trigger="#create-task", data-width="562px", data-height="866px")
+            div(class="modal-header")
+                strong(style="font-size:2em") Create a new task
+            div(class="modal-body")
+                form(action="#", class="ink-form")
+                    fieldset
+                        legend General Information
+                        div(class="control-group required validation", style="margin-top: 6px")
+                            label(for="text-input") Name
+                            div(class="control")
+                                input(id="new-task-name", type="text", placeholder="name of the task")
+                            p(class="tip") This field is required
+                        div(class="control-group required validation")
+                            label(for="text-input") Description
+                            div(class="control")
+                                textarea(id="new-task-description", placeholder="description of the task", style="height:128px")
+                            p(class="tip") This field is required
+                    fieldset(class="column-group")
+                        legend Configuration
+                        div(class="control-group", style="margin-top: 6px")
+                            label(for="text-input") Parent Task
+                            div(class="control")
+                                input(type="text", id="new-task-start-date", placeholder="parent task id")
+                        div(class="control-group required validation", style="margin-top: 6px")
+                            label(for="text-input") Start Date
+                            div(class="control")
+                                input(type="text", id="new-task-start-date", placeholder="mm/dd/yyyy")
+                        div(class="control-group")
+                            label(for="text-input") End Date
+                            div(class="control")
+                                input(type="text", id="new-task-end-date", placeholder="mm/dd/yyyy")
+                    fieldset
+                        legend Priority
+                        div(class="control-group", style="margin-top: 6px")
+                            ul(class="control unstyled inline")
+                                li
+                                    input(type="radio", id="new-task-high", name="new-task-priority", value="high")
+                                    label(for="new-task-high") High
+                                li
+                                    input(type="radio", id="new-task-normal", checked="checked", name="new-task-priority", value="normal")
+                                    label(for="new-task-normal") Normal
+                                li
+                                    input(type="radio", id="new-task-low", name="new-task-priority", value="low")
+                                    label(for="new-task-low") Low
+            div(class="modal-footer")
+                div(class="push-right")
+                    button(class="ink-button blue") Confirm
+                    button(class="ink-button red ink-dismiss") Cancel
+
+    // User Creation Dialog
+    div(class="ink-shade")
+        div(class="ink-modal", data-trigger="#create-user", data-width="562px", data-height="866px")
+            div(class="modal-header")
+                strong(style="font-size:2em") Create a new user
+            div(class="modal-body")
+                form(action="#", class="ink-form")
+                    fieldset
+                        legend General Information
+                        div(class="control-group required validation", style="margin-top: 6px")
+                            label(for="text-input") Name
+                            div(class="control")
+                                input(id="new-user-name", type="text", placeholder="enter real name")
+                            p(class="tip") This field is required
+                        div(class="control-group required validation")
+                            label(for="text-input") Email Address
+                            div(class="control")
+                                input(id="new-user-email-address", type="text", placeholder="enter real email address")
+                            p(class="tip") This field is required
+                        div(class="control-group")
+                            label(for="text-input") Description
+                            div(class="control")
+                                textarea(id="new-user-description", placeholder="enter description", style="height:128px")
+                            p(class="tip") This field is required
+                    fieldset(class="column-group")
+                        legend Login Credential
+                        div(class="control-group required validation", style="margin-top: 6px")
+                            label(for="text-input") Login Name
+                            div(class="control")
+                                input(id="new-user-login-name", type="text", placeholder="enter login name")
+                            p(class="tip") This field is required; spaces are not permitted
+                        div(class="control-group required validation")
+                            label(for="text-input") Password
+                            div(class="control")
+                                input(id="new-user-password", type="password", placeholder="enter password")
+                            p(class="tip") This field is required; spaces are not permitted
+                    fieldset
+                        legend Role
+                        div(class="control-group", style="margin-top: 6px")
+                            ul(class="control unstyled inline")
+                                li
+                                    input(type="radio", id="new-user-role-administrator", name="new-user-role", value="administrator")
+                                    label(for="new-user-role-administrator") Administrator
+                                li
+                                    input(type="radio", id="new-user-role-developer", checked="checked", name="new-user-role", value="developer")
+                                    label(for="new-user-role-developer") Developer
+                                li
+                                    input(type="radio", id="new-user-role-observer", name="new-user-role", value="observer")
+                                    label(for="new-user-role-observer") Observer
+            div(class="modal-footer")
+                div(class="push-right")
+                    button(class="ink-button blue") Confirm
+                    button(class="ink-button red ink-dismiss") Cancel
+
+    div
+        nav(class="ink-navigation hide-small")
+            ul(class="menu horizontal black shadowed")
+                li
+                    a(href="javascript:void(0);")
+                        img(src="/images/example/brand_example.png", width="48", height="48")
+                li
+                    a(href="javascript:void(0);")
+                        span(class="own-nav-header", style="font-size:2.1em") Project Management System
+                li(style="float:right")
+                    a(href="javascript:void(0);", style="padding:1em 1.5em;overflow:hidden")
+                        div(style="float:left")
+                            img(src="/images/example/default_user.jpg", width="48", height="48", style="border-radius:3em;margin-right:1em")
+                        div(style="float:left;")
+                            p(style="font-weight:bold;font-size:1.25em") Steve Jobs
+                            p(style="font-size:0.8em;line-height:0.15em") administrator
+                    ul(class="submenu", style="margin-top:1.8em;")
+                        li
+                            a(href="#")
+                                i(class="icon-signout") &nbsp;Log out
+        div(class="ink-grid", style="max-width:none;padding-top:2em")
+            div(class="column-group gutters")
+                div(class="large-20 medium-40 small-100")
+                    nav(class="ink-navigation", style="padding:24px")
+                        ul(class="menu vertical orange rounded shadowed")
+                            li(class="active")
+                                a(href="#")
+                                    i(class="icon-dashboard")&nbsp;&nbsp;Dashboard
+                            li
+                                a(href="#")
+                                    i(class="icon-user")&nbsp;&nbsp;Users
+                                ul(class="submenu dropdown")
+                                    li
+                                        a(href="#")
+                                            i(class="icon-list")&nbsp;&nbsp;List
+                                    li
+                                        a(href="#", id="create-user")
+                                            i(class="icon-plus-sign")&nbsp;&nbsp;Create
+                            li
+                                a(href="#")
+                                    i(class="icon-calendar")&nbsp;&nbsp;Planning
+                            li
+                                a(href="#")
+                                    i(class="icon-tasks")&nbsp;&nbsp;Tasks
+                                ul(class="submenu dropdown")
+                                    li
+                                        a(href="#")
+                                            i(class="icon-list")&nbsp;&nbsp;List
+                                    li
+                                        a(href="#", id="create-task")
+                                            i(class="icon-plus-sign")&nbsp;&nbsp;Create
+                            li
+                                a(href="#")
+                                    i(class="icon-cloud-upload")&nbsp;&nbsp;Files & Folders
+                div(class="large-80 medium-60 small-100")
+                    div(style="padding:10px")
+                        //div(class="own-alert-section")
+                        //    div(class="ink-alert block info")
+                        //        button(class="ink-dismiss")&times;
+                        //        h4 Inspection under way
+                        //        p This is a simple notification
+                        div(style="margin-top:1em;")
+                            block content

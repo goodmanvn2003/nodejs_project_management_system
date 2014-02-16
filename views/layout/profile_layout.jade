@@ -1,0 +1,60 @@
+doctype html
+html
+    head
+        title= title
+        link(rel='stylesheet', href='/stylesheets/ink/ink.css')
+        link(rel='stylesheet', href='/stylesheets/toast/toast.min.css')
+        link(rel='stylesheet', href='/stylesheets/style.css')
+        script(type='text/javascript', src='/javascripts/vendor/jquery.js')
+        script(type='text/javascript', src='/javascripts/vendor/knockback.js')
+        script(type='text/javascript', src='/javascripts/vendor/ink/ink.min.js')
+        script(type='text/javascript', src='/javascripts/vendor/ink/ink.modal.js')
+        script(type='text/javascript', src='/javascripts/vendor/ink/autoload.js')
+        script(type='text/javascript', src='/javascripts/vendor/toast/toast.min.js')
+    body
+        div
+            nav(class="ink-navigation hide-small")
+                ul(class="menu horizontal black shadowed")
+                    li
+                        a(href="javascript:void(0);")
+                            img(src="http://openclipart.org/image/800px/svg_to_png/170456/fictional_brand_logo_IXI.png", width="48", height="48")
+                    li
+                        a(href="javascript:void(0);")
+                            span(class="own-nav-header", style="font-size:2.1em") Project Management System
+                    li(style="float:right")
+                        a(href="javascript:void(0);", style="padding:1em 1.5em;overflow:hidden")
+                            div(style="float:left")
+                                img(src="http://www.pmasta.net/images/steveJobs.jpg", width="48", height="48", style="border-radius:3em;margin-right:1em")
+                            div(style="float:left;")
+                                p(style="font-weight:bold;font-size:1.25em") Steve Jobs
+                                p(style="font-size:0.8em;line-height:0.15em") administrator
+                        ul(class="submenu", style="margin-top:1.8em;")
+                            li
+                                a(href="#")
+                                    i(class="icon-signout") &nbsp;Log out
+            div(class="ink-grid", style="max-width:none;padding-top:2em")
+                div(class="column-group gutters")
+                    div(class="large-20 medium-40 small-100")
+                        nav(class="ink-navigation", style="padding:24px")
+                            ul(class="menu vertical orange rounded shadowed")
+                                li(class="active")
+                                    a(href="#")
+                                        i(class="icon-user-md")&nbsp;&nbsp;User Dashboard
+                                li
+                                    a(href="#")
+                                        i(class="icon-cog")&nbsp;&nbsp;Personal Information
+                                li
+                                    a(href="#")
+                                        i(class="icon-cogs")&nbsp;&nbsp;Account Settings
+                                li
+                                    a(href="#")
+                                        i(class="icon-bullseye")&nbsp;&nbsp;Activity Logs
+                    div(class="large-80 medium-60 small-100")
+                        div(style="padding:10px")
+                            //div(class="own-alert-section")
+                            //    div(class="ink-alert block info")
+                            //        button(class="ink-dismiss")&times;
+                            //        h4 Inspection under way
+                            //        p This is a simple notification
+                            div(style="margin-top:1em;")
+                                block content
