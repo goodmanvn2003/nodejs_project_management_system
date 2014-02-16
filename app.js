@@ -12,6 +12,9 @@ var path = require('path');
 var mongo = require('mongoose');
 mongo.connect('mongodb://root:mylordjesus@localhost/pm');
 
+// SocketIO
+var socketManager = require('./socket/socket.js');
+
 var app = express();
 
 // all environments
@@ -41,6 +44,8 @@ app.get('/task/dashboard', task.index);
 app.get('/task/status', task.status);
 app.get('/user/:id/dashboard', user.config);
 app.get('/login', user.authenticate_user);
+
+socketManager.SocketBind(socketManager.SocketInit(app));
 
 // create server
 http.createServer(app).listen(app.get('port'), function(){
