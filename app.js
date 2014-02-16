@@ -36,7 +36,7 @@ var user = require('./routes/user'),
     task = require('./routes/task');
 
 // app routes
-app.get('/', task.index);
+app.get('/', user.authenticate_user);
 app.get('/task/dashboard', task.index);
 app.get('/task/status', task.status);
 app.get('/user/:id/dashboard', user.config);
