@@ -8,21 +8,27 @@ block content
                     img(src="/images/example/brand_example.png", width="128", height="128")
                     h5 Welcome
                     div
-                        form(class="ink-form")
+                        // Alert
+                        div(class="ink-alert basic info hide-all")
+                            p
+                                span
+                        //
+                        form(class="ink-form", method="POST", action="/user/do_login", name="login_form")
                             fieldset
                                 div(class="control-group column-group")
                                     div(class="control large-100 medium-100 small-100 prepend-symbol")
                                         span
-                                            input(type="text", id="login-username", name="login-username")
+                                            input(type="text", id="login-username", name="username")
                                             i(class="icon-user")&nbsp;
                                 div(class="control-group column-group")
                                     div(class="control large-100 medium-100 small-100 prepend-symbol")
                                         span
-                                            input(type="password", id="login-password", name="login-password")
+                                            input(type="password", id="login-password", name="password")
                                             i(class="icon-key")&nbsp;
                                 div
                                     button(type="sumbit", class="ink-button") log in
-                                    a(href="#")&nbsp;&nbsp;forget your password?
+                                    &nbsp;&nbsp;
+                                    a(href="#") forgot your password?
                     // br
 
                     // i(class="icon-key")&nbsp;&nbsp;

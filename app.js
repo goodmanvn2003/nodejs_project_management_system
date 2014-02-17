@@ -16,6 +16,7 @@ mongo.connect('mongodb://root:mylordjesus@localhost/pm');
 var socketManager = require('./socket/socket.js');
 
 var app = express();
+var server = http.createServer(app);
 
 // all environments
 app.set('port', process.env.PORT || 3000);
@@ -39,15 +40,19 @@ var user = require('./routes/user'),
     task = require('./routes/task');
 
 // app routes
+// GET
 app.get('/', user.authenticate_user);
+app.get('/task', task.index);
 app.get('/task/dashboard', task.index);
 app.get('/task/status', task.status);
 app.get('/user/:id/dashboard', user.config);
 app.get('/login', user.authenticate_user);
+// POST
+app.post('/user/do_login', user.do_authenticate);
 
-socketManager.SocketBind(socketManager.SocketInit(app));
+socketManager.SocketBind(socketManager.SocketInit(server));
 
 // create server
-http.createServer(app).listen(app.get('port'), function(){
+server.listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
