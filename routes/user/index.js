@@ -16,9 +16,15 @@ exports.do_authenticate = function(req, res) {
         if (!err)
         {
             if (user !== null && user !== undefined)
+            {
+                res.cookie('session_id', (crypto.createHash('sha256').update((new Date()).toUTCString())).digest('hex'), { expires: new Date(Date.now() + 900000), httpOnly: true })
                 res.redirect('/task/dashboard');
+            }
             else
+            {
+                console.log('went in here');
                 res.redirect('/login');
+            }
         } else
             res.end('ERR: Could not contact database');
     });

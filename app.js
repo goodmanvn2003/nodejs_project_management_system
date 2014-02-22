@@ -27,6 +27,7 @@ app.use(express.logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.methodOverride());
+app.use(express.cookieParser('lordey'));
 app.use(app.router);
 app.use(require('less-middleware')({ src: path.join(__dirname, 'public') }));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -36,19 +37,30 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
+// controller helpers
+var helper = require('./routes/helpers/auth');
+
+// controllers
 var user = require('./routes/user'),
-    task = require('./routes/task');
+    task = require('./routes/task'),
+    restful = require('./routes/restful');
 
 // app routes
-// GET
 app.get('/', user.authenticate_user);
+
+/* task routes */
+app.all('/task/*', helper.AuthRequired);
 app.get('/task', task.index);
 app.get('/task/dashboard', task.index);
 app.get('/task/status', task.status);
+/* user routes */
+app.all('/user/*', helper.AuthRequired);
 app.get('/user/:id/dashboard', user.config);
+/* login routes */
 app.get('/login', user.authenticate_user);
-// POST
-app.post('/user/do_login', user.do_authenticate);
+app.post('/login/local', user.do_authenticate);
+/* restful interface */
+app.get('/api/test', restful.test);
 
 socketManager.SocketBind(socketManager.SocketInit(server));
 

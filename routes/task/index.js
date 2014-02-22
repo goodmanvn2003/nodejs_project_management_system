@@ -1,6 +1,9 @@
 var User = require('../../models/user.js')
 
 exports.index = function(req, res){
+    console.log(req.cookies);
+
+
     res.render('task/dashboard', { title: 'Express' });
 };
 

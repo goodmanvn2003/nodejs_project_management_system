@@ -41,23 +41,3 @@ MongoClient.connect('mongodb://root:mylordjesus@localhost/pm', function(err, db)
         console.log('Done seeding MongoDB 2');
     });
 });
-
-/*console.log('Seed MongoDB with default user');
-User.create({
-    user_name : 'admin',
-    password_hash : shasum.digest('hex'),
-    role : 'administrator',
-    recovery_token : '',
-    user_details :
-    {
-        name : 'default user',
-        email_address: 'default_user@example.com'
-    },
-    description : 'default administrative user',
-    login_count : 0,
-    created_at : (new Date()).getDate()
-}, function(err){
-    console.log(err);
-    if (!err)
-        console.log('default user has just been inserted');
-});*/
