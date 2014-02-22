@@ -17,17 +17,26 @@ exports.do_authenticate = function(req, res) {
         {
             if (user !== null && user !== undefined)
             {
-                res.cookie('session_id', (crypto.createHash('sha256').update((new Date()).toUTCString())).digest('hex'), { expires: new Date(Date.now() + 900000), httpOnly: true })
+                console.log(user);
+                // res.cookie('session_id', (crypto.createHash('sha256').update((new Date()).toUTCString())).digest('hex'), { expires: new Date(Date.now() + 900000), httpOnly: true })
+                req.session.session_id = (crypto.createHash('sha256').update((new Date()).toUTCString())).digest('hex');
+                req.session.user_id = user._id;
                 res.redirect('/task/dashboard');
             }
             else
             {
-                console.log('went in here');
+                req.flash('error','Incorrect credentials');
                 res.redirect('/login');
             }
         } else
             res.end('ERR: Could not contact database');
     });
+}
+
+exports.do_logout = function(req, res) {
+    req.session.session_id = null;
+    req.session.user_id = null;
+    res.json({ status: 'logged out' });
 }
 
 exports.config = function(req, res){

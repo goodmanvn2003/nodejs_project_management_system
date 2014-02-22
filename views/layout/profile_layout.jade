@@ -13,25 +13,9 @@ html
         script(type='text/javascript', src='/javascripts/vendor/toast/toast.min.js')
     body
         div
-            nav(class="ink-navigation hide-small")
-                ul(class="menu horizontal black shadowed")
-                    li
-                        a(href="javascript:void(0);")
-                            img(src="http://openclipart.org/image/800px/svg_to_png/170456/fictional_brand_logo_IXI.png", width="48", height="48")
-                    li
-                        a(href="javascript:void(0);")
-                            span(class="own-nav-header", style="font-size:2.1em") Project Management System
-                    li(style="float:right")
-                        a(href="javascript:void(0);", style="padding:1em 1.5em;overflow:hidden")
-                            div(style="float:left")
-                                img(src="http://www.pmasta.net/images/steveJobs.jpg", width="48", height="48", style="border-radius:3em;margin-right:1em")
-                            div(style="float:left;")
-                                p(style="font-weight:bold;font-size:1.25em") Steve Jobs
-                                p(style="font-size:0.8em;line-height:0.15em") administrator
-                        ul(class="submenu", style="margin-top:1.8em;")
-                            li
-                                a(href="#")
-                                    i(class="icon-signout") &nbsp;Log out
+            // header
+            include _header
+
             div(class="ink-grid", style="max-width:none;padding-top:2em")
                 div(class="column-group gutters")
                     div(class="large-20 medium-40 small-100")

@@ -1,5 +1,5 @@
 {
-  "name": "application-name",
+  "name": "realtime-project-management-system",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -10,6 +10,8 @@
     "jade": "*",
     "less-middleware": "*",
     "mongoose": "*",
-    "mongoid": "*"
+    "mongodb": "*",
+    "connect-flash": "*",
+    "express-flash": "*"
   }
 }

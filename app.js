@@ -7,6 +7,7 @@ var express = require('express');
 var routes = require('./routes');
 var http = require('http');
 var path = require('path');
+var flash = require('express-flash');
 
 // MongoDB
 var mongo = require('mongoose');
@@ -28,6 +29,8 @@ app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.methodOverride());
 app.use(express.cookieParser('lordey'));
+app.use(express.session({ cookie: { maxAge: 60000 }}));
+app.use(flash());
 app.use(app.router);
 app.use(require('less-middleware')({ src: path.join(__dirname, 'public') }));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -59,6 +62,7 @@ app.get('/user/:id/dashboard', user.config);
 /* login routes */
 app.get('/login', user.authenticate_user);
 app.post('/login/local', user.do_authenticate);
+app.delete('/login/local/delete', user.do_logout);
 /* restful interface */
 app.get('/api/test', restful.test);
 

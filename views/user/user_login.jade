@@ -4,14 +4,25 @@ block content
     div(class="column-group")
         div(class="large-50 medium-80 small-100 push-center")
             div(class="column-group")
-                div(class="large-35 medium-50 small-100 push-center", style="text-align:center;padding:12em 1em;")
+                div(class="large-35 medium-50 small-100 push-center", style="text-align:center;padding:15em 1em;")
                     img(src="/images/example/brand_example.png", width="128", height="128")
                     h5 Welcome
                     div
                         // Alert
-                        div(class="ink-alert basic info hide-all")
-                            p
-                                span
+                        if messages.error
+                            div(class="ink-alert basic error")
+                                p
+                                    span
+                                    i(class="icon-quote-left") &nbsp;
+                                    span &nbsp;#{messages.error} &nbsp;
+                                    i(class="icon-quote-right")
+                        if messages.info
+                            div(class="ink-alert basic info")
+                                p
+                                    span
+                                    i(class="icon-quote-left") &nbsp;
+                                    span &nbsp;#{messages.info} &nbsp;
+                                    i(class="icon-quote-right")
                         //
                         form(class="ink-form", method="POST", action="/login/local", name="login_form")
                             fieldset
@@ -28,4 +39,4 @@ block content
                                 div
                                     button(type="sumbit", class="ink-button") log in
                                     &nbsp;&nbsp;
-                                    a(href="#") forgot your password?
+                                    a(href="#") forgot password?
