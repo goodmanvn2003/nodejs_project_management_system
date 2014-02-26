@@ -2,7 +2,7 @@ var MongoClient = require('mongodb').MongoClient;
 var crypto = require('crypto');
 
 console.log('Connecting to MongoDB');
-MongoClient.connect('mongodb://root:mylordjesus@localhost/pm', function(err, db){
+MongoClient.connect('mongodb://localhost/pm', function(err, db){
 
     db.collection('users').drop();
 

@@ -1,14 +1,12 @@
 var User = require('../../models/user.js')
 
 exports.index = function(req, res){
-    console.log(req.cookies);
-
-
+    console.log(req.headers['referer']);
     res.render('task/dashboard', { title: 'Express' });
 };
 
 exports.status = function(req, res){
-    console.log(User);
+    console.log(req.headers['referer']);
     User.find(function(error, users){
         var obj = {
             users : {

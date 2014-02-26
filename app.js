@@ -11,7 +11,7 @@ var flash = require('express-flash');
 
 // MongoDB
 var mongo = require('mongoose');
-mongo.connect('mongodb://root:mylordjesus@localhost/pm');
+mongo.connect('mongodb://localhost/pm');
 
 // SocketIO
 var socketManager = require('./socket/socket.js');
@@ -52,12 +52,12 @@ var user = require('./routes/user'),
 app.get('/', user.authenticate_user);
 
 /* task routes */
-app.all('/task/*', helper.AuthRequired);
+app.all('/task*', helper.AuthRequired);
 app.get('/task', task.index);
 app.get('/task/dashboard', task.index);
 app.get('/task/status', task.status);
 /* user routes */
-app.all('/user/*', helper.AuthRequired);
+app.all('/user*', helper.AuthRequired);
 app.get('/user/:id/dashboard', user.config);
 /* login routes */
 app.get('/login', user.authenticate_user);

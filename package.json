@@ -12,6 +12,7 @@
     "mongoose": "*",
     "mongodb": "*",
     "connect-flash": "*",
-    "express-flash": "*"
+    "express-flash": "*",
+    "socket.io": "*"
   }
 }
