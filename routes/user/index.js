@@ -21,7 +21,6 @@ exports.do_authenticate = function(req, res) {
         {
             if (user !== null && user !== undefined)
             {
-                console.log(user);
                 // res.cookie('session_id', (crypto.createHash('sha256').update((new Date()).toUTCString())).digest('hex'), { expires: new Date(Date.now() + 900000), httpOnly: true })
                 req.session.session_id = (crypto.createHash('sha256').update((new Date()).toUTCString())).digest('hex');
                 req.session.user_id = user._id;
@@ -43,6 +42,6 @@ exports.do_logout = function(req, res) {
     res.json({ status: 'logged out' });
 }
 
-exports.config = function(req, res){
+exports.index = function(req, res){
     res.render('user/user_profile');
 }

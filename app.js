@@ -58,7 +58,8 @@ app.get('/task/dashboard', task.index);
 app.get('/task/status', task.status);
 /* user routes */
 app.all('/user*', helper.AuthRequired);
-app.get('/user/:id/dashboard', user.config);
+app.get('/user/:id', user.index);
+app.get('/user/:id/dashboard', user.index);
 /* login routes */
 app.get('/login', user.authenticate_user);
 app.post('/login/local', user.do_authenticate);
