@@ -8,7 +8,6 @@ var User = require('../../models/user.js');
 exports.authenticate_user = function(req, res) {
     if (req.session.session_id !== null && req.session.session_id !== undefined)
     {
-        console.log(req.headers['referrer']);
         res.redirect('/task');
     }
     res.render('user/user_login');
