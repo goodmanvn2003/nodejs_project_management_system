@@ -40,6 +40,9 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
+var routesLoader = require('./url_mapping/routes.js');
+routesLoader.LoadRoutes(app);
+/*
 // controller helpers
 var helper = require('./routes/helpers/auth');
 
@@ -51,21 +54,22 @@ var user = require('./routes/user'),
 // app routes
 app.get('/', user.authenticate_user);
 
-/* task routes */
+// task routes
 app.all('/task*', helper.AuthRequired);
 app.get('/task', task.index);
 app.get('/task/dashboard', task.index);
 app.get('/task/status', task.status);
-/* user routes */
+// user routes
 app.all('/user*', helper.AuthRequired);
 app.get('/user/:id', user.index);
 app.get('/user/:id/dashboard', user.index);
-/* login routes */
+// login routes
 app.get('/login', user.authenticate_user);
 app.post('/login/local', user.do_authenticate);
 app.delete('/login/local/delete', user.do_logout);
-/* restful interface */
+// restful interface
 app.get('/api/test', restful.test);
+*/
 
 socketManager.SocketBind(socketManager.SocketInit(server));
 
