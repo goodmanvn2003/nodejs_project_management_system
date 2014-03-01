@@ -9,6 +9,8 @@ var http = require('http');
 var path = require('path');
 var flash = require('express-flash');
 
+var basepath = __dirname;
+
 // MongoDB
 var mongo = require('mongoose');
 mongo.connect('mongodb://localhost/pm');
@@ -72,6 +74,10 @@ app.get('/api/test', restful.test);
 */
 
 socketManager.SocketBind(socketManager.SocketInit(server));
+
+// Load plugins
+var Plugin = require('./plugin');
+Plugin.LoadPlugin(app, basepath);
 
 // create server
 server.listen(app.get('port'), function(){
