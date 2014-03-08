@@ -1,5 +1,3 @@
-console.log('example\'s routes have just been loaded!');
-
 // Plugin routes go here
 function load_routes(app, basepath, plugin_root) {
     var helper = require(basepath + '/routes/helpers/auth'),
@@ -8,4 +6,4 @@ function load_routes(app, basepath, plugin_root) {
     app.get('/' + plugin_root.trim() + '/test', home.index);
 }
 
-module.exports.LoadRoutes =load_routes;
+module.exports.LoadRoutes = load_routes;
