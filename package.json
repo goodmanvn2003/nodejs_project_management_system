@@ -13,6 +13,7 @@
     "mongodb": "*",
     "connect-flash": "*",
     "express-flash": "*",
-    "socket.io": "*"
+    "socket.io": "*",
+    "chai": "*"
   }
 }

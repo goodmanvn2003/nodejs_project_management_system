@@ -9,8 +9,6 @@ var http = require('http');
 var path = require('path');
 var flash = require('express-flash');
 
-var basepath = __dirname;
-
 // MongoDB
 var mongo = require('mongoose');
 mongo.connect('mongodb://localhost/pm');
@@ -31,10 +29,10 @@ app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.methodOverride());
 app.use(express.cookieParser('lordey'));
-app.use(express.session({ cookie: { maxAge: 60000 }}));
+app.use(express.session({ cookie: { maxAge: 360000 }}));
 app.use(flash());
 app.use(app.router);
-app.use(require('less-middleware')({ src: path.join(__dirname, 'public') }));
+app.use(require('less-middleware')(path.join(__dirname, '/public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // development only
@@ -44,40 +42,12 @@ if ('development' == app.get('env')) {
 
 var routesLoader = require('./url_mapping/routes.js');
 routesLoader.LoadRoutes(app);
-/*
-// controller helpers
-var helper = require('./routes/helpers/auth');
-
-// controllers
-var user = require('./routes/user'),
-    task = require('./routes/task'),
-    restful = require('./routes/restful');
-
-// app routes
-app.get('/', user.authenticate_user);
-
-// task routes
-app.all('/task*', helper.AuthRequired);
-app.get('/task', task.index);
-app.get('/task/dashboard', task.index);
-app.get('/task/status', task.status);
-// user routes
-app.all('/user*', helper.AuthRequired);
-app.get('/user/:id', user.index);
-app.get('/user/:id/dashboard', user.index);
-// login routes
-app.get('/login', user.authenticate_user);
-app.post('/login/local', user.do_authenticate);
-app.delete('/login/local/delete', user.do_logout);
-// restful interface
-app.get('/api/test', restful.test);
-*/
 
 socketManager.SocketBind(socketManager.SocketInit(server));
 
 // Load plugins
 var Plugin = require('./plugin');
-Plugin.LoadPlugin(app, basepath);
+Plugin.LoadPlugin(app, __dirname);
 
 // create server
 server.listen(app.get('port'), function(){

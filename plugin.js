@@ -5,6 +5,7 @@ function getExtension(filename) {
     var i = filename.lastIndexOf('.');
     return (i < 0) ? '' : filename.substr(i);
 }
+
 function load_plugins(app, basepath) {
     Plugin.find(function(err, plugins){
         plugins.forEach(function(plugin){
