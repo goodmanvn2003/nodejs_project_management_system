@@ -27,9 +27,14 @@ app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded());
+app.use(express.bodyParser({
+    keepExtensions: true,
+    uploadDir: __dirname + '/repository/tmp',
+    limit: '2mb'
+}));
 app.use(express.methodOverride());
 app.use(express.cookieParser('lordey'));
-app.use(express.session({ cookie: { maxAge: 360000 }}));
+app.use(express.session({ cookie: { maxAge: 3600000 }}));
 app.use(flash());
 app.use(app.router);
 app.use(require('less-middleware')(path.join(__dirname, '/public')));

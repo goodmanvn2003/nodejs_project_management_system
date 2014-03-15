@@ -24,6 +24,8 @@ exports.do_authenticate = function(req, res) {
                 // res.cookie('session_id', (crypto.createHash('sha256').update((new Date()).toUTCString())).digest('hex'), { expires: new Date(Date.now() + 900000), httpOnly: true })
                 req.session.session_id = (crypto.createHash('sha256').update((new Date()).toUTCString())).digest('hex');
                 req.session.user_id = user._id;
+                req.session.user_name = user.user_name;
+                req.session.user_role = user.role;
                 res.redirect('/task/dashboard');
             }
             else

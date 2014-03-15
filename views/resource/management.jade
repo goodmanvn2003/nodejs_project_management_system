@@ -1,0 +1,47 @@
+extends ../layout/task_layout
+
+block content
+    form(id="uploadForm", method="post", action="/resource/upload", enctype="multipart/form-data")
+        h4 Select a file to upload
+        br
+        input(type="file", name="uploadedFile", id="uploadedFile")
+        br
+        br
+        input(type="button", id="startUploadFile", value="Upload File", class="ink-button red", style="margin:0;")
+        span &nbsp;&nbsp;&nbsp;
+        span(id="uploadProgress", style="display:none;")
+
+    script(type="text/javascript").
+        function onFileSelected(e) {
+            var file = document.getElementById("uploadedFile").files[0];
+        }
+
+        function uploadFile() {
+            var xhr = new XMLHttpRequest();
+            var fd = new FormData();
+            fd.append("uploadedFile", document.getElementById("uploadedFile").files[0]);
+            xhr.upload.addEventListener("progress", function(e){
+                if (e.lengthComputable)
+                {
+                    var percentage = (e.loaded / e.total) * 100;
+                    $("#uploadProgress").fadeIn("fast");
+                    $("#uploadProgress").text(percentage);
+                    $("#uploadedFile").attr("disabled","disabled");
+                }
+            }, false);
+            xhr.upload.addEventListener("load", function(e){
+                $("#uploadProgress").text("File has just been uploaded successfully!");
+                $("#uploadProgress").fadeOut("fast");
+                $("#uploadedFile").removeAttr("disabled");
+                $("#uploadedFile").val("");
+            }, false);
+            xhr.open("POST", "/resource/upload", true);
+            xhr.send(fd);
+        }
+
+        $(function(){
+            $("#startUploadFile").on("click", function(e){
+                uploadFile();
+            });
+            $("#uploadedFile").on("change", onFileSelected);
+        })

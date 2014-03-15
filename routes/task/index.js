@@ -1,7 +1,7 @@
 var User = require('../../models/user.js')
 
-exports.index = function(req, res){;
-    res.render('task/dashboard', { title: 'Express' });
+exports.index = function(req, res){
+    res.render('task/dashboard', { title: 'Dashboard', user_name : req.session.user_name, user_role : req.session.user_role });
 };
 
 exports.status = function(req, res){

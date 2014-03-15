@@ -11,9 +11,12 @@ nav(class="ink-navigation hide-small")
                 div(style="float:left")
                     img(src="/images/example/default_user.jpg", width="48", height="48", style="border-radius:3em;margin-right:1em")
                 div(style="float:left;")
-                    p(style="font-weight:bold;font-size:1.25em") Steve Jobs
-                    p(style="font-size:0.8em;line-height:0.15em") administrator
+                    p(style="font-weight:bold;font-size:1.25em") #{user_name}
+                    p(style="font-size:0.8em;line-height:0.15em") #{user_role}
             ul(class="submenu", style="margin-top:1.8em;")
+                li
+                    a(href="javascript:void(0);" id="user-settings")
+                        i(class="icon-cog") &nbsp;Settings
                 li
                     a(href="javascript:void(0);" id="user-logout")
                         i(class="icon-signout") &nbsp;Log out

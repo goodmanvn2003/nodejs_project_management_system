@@ -2,6 +2,7 @@
 var helper = require('../routes/helpers/auth');
 var user = require('../routes/user'),
     task = require('../routes/task'),
+    resource = require('../routes/resource');
     restful = require('../routes/restful');
 
 function load_routes(app) {
@@ -21,6 +22,10 @@ function load_routes(app) {
     app.get('/login', user.authenticate_user);
     app.post('/login/local', user.do_authenticate);
     app.delete('/login/local/delete', user.do_logout);
+    /* resource routes */
+    app.all('/resource*', helper.AuthRequired);
+    app.get('/resource', resource.index);
+    app.post('/resource/upload', resource.upload);
     /* restful interface */
     app.get('/api/test', restful.test);
 }
