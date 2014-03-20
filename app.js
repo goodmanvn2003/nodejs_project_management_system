@@ -30,7 +30,7 @@ app.use(express.urlencoded());
 app.use(express.bodyParser({
     keepExtensions: true,
     uploadDir: __dirname + '/repository/tmp',
-    limit: '2mb'
+    limit: '10mb'
 }));
 app.use(express.methodOverride());
 app.use(express.cookieParser('lordey'));
