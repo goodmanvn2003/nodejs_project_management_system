@@ -1,7 +1,7 @@
 var User = require('../../models/user.js')
 
 exports.index = function(req, res){
-    res.render('task/dashboard', { title: 'Dashboard', dashboard: 'active', user_name : req.session.user_name, user_role : req.session.user_role });
+    res.render('task/dashboard', { title: 'Dashboard', dashboard: 'active', user_name : req.session.user_name, user_role : req.session.user_role, project_name: req.session.project_name });
 };
 
 exports.status = function(req, res){
@@ -19,4 +19,9 @@ exports.status = function(req, res){
         }
         res.render('task/conn_report', obj);
     });
+}
+
+exports.list = function(req, res)
+{
+    res.render('task/tasks_list', { user_name : req.session.user_name, user_role : req.session.user_role, project_name: req.session.project_name });
 }

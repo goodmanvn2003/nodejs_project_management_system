@@ -1,0 +1,55 @@
+extends ../layout/task_layout
+
+block content
+    style.
+        .data-table tbody tr td {
+            vertical-align: top;
+        }
+    div
+        table(class="data-table ink-table hover", style="background-color:white;")
+            thead(style="background-color:black;color:white;font-weight:bold;")
+                tr
+                    td(width="3%") UID
+                    td(width="10%") Name
+                    td(width="5%") Type
+                    td(width="15%") Description
+                    td(width="10%") Time Left
+                    td(width="10%") Due Date
+                    td(width="10%") Assignee
+                    td(width="10%") Parent
+                    td(width="10%") Artifacts
+                    td(width="15%") Operations
+            tbody
+                tr
+                    td 0001
+                    td
+                        a(href="#") default task
+                    td feature
+                    td default task description
+                    td 02:15:39
+                    td 09:30 12/23/2013
+                    td N/A
+                    td N/A
+                    td
+                        ul(style="list-style-type:none;margin:0;padding:0;")
+                            li
+                                a(href="#") artifact.pdf
+                            li
+                                a(href="#") artifact_2.pdf
+                        select(class="artifacts", data-id="taskid", style="display:none;")
+                            option(value="") (unselected)
+                            option(value="filename") artifact.pdf
+                            option(value="filename") someother_complex_artifact.pdf
+                    td
+                        a(href="#") edit
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        a(href="#") delete
+
+        nav(class="ink-navigation")
+            ul(class="pagination")
+                li(class="previous disabled")
+                    a(href="#") Previous
+                li(class="active")
+                    a(href="#") 1
+                li(class="next")
+                    a(href="#") Next

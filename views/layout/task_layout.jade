@@ -12,6 +12,8 @@ html
     script(type='text/javascript', src='/javascripts/vendor/ink/ink.progressbar.js')
     script(type='text/javascript', src='/javascripts/vendor/ink/autoload.js')
     script(type='text/javascript', src='/javascripts/vendor/toast/toast.min.js')
+    script(type='text/javascript', src='/javascripts/vendor/flot/jquery.flot.min.js')
+    script(type='text/javascript', src='/javascripts/vendor/flot/jquery.flot.pie.min.js')
   body
     // Task Creation Dialog
     div(class="ink-shade")
@@ -130,17 +132,18 @@ html
                             li(class=dashboard)
                                 a(href="/task")
                                     i(class="icon-dashboard")&nbsp;&nbsp;Dashboard
-                            li
-                                a(href="#")
-                                    i(class="icon-user")&nbsp;&nbsp;Users
-                                ul(class="submenu dropdown")
-                                    li
-                                        a(href="#")
-                                            i(class="icon-list")&nbsp;&nbsp;List
-                                    li
-                                        a(href="#", id="create-user")
-                                            i(class="icon-plus-sign")&nbsp;&nbsp;Create
-                            li
+                            - if (user_role == "administrator")
+                                li
+                                    a(href="#")
+                                        i(class="icon-user")&nbsp;&nbsp;Users
+                                    ul(class="submenu dropdown")
+                                        li
+                                            a(href="/users/list")
+                                                i(class="icon-list")&nbsp;&nbsp;List
+                                        li
+                                            a(href="#", id="create-user")
+                                                i(class="icon-plus-sign")&nbsp;&nbsp;Create
+                            // li
                                 a(href="#")
                                     i(class="icon-calendar")&nbsp;&nbsp;Planning
                             li
@@ -148,7 +151,7 @@ html
                                     i(class="icon-tasks")&nbsp;&nbsp;Tasks
                                 ul(class="submenu dropdown")
                                     li
-                                        a(href="#")
+                                        a(href="/tasks/list")
                                             i(class="icon-list")&nbsp;&nbsp;List
                                     li
                                         a(href="#", id="create-task")

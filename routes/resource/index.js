@@ -11,5 +11,5 @@ exports.upload = function(req, res) {
 }
 
 exports.index = function(req, res) {
-    res.render('resource/management', { resource: 'active', user_name : req.session.user_name, user_role : req.session.user_role });
+    res.render('resource/management', { resource: 'active', user_name : req.session.user_name, user_role : req.session.user_role, project_name: req.session.project_name });
 }

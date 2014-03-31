@@ -11,13 +11,17 @@ function load_routes(app) {
 
     /* task routes */
     app.all('/task*', helper.AuthRequired);
+    app.all('/tasks*', helper.AuthRequired);
     app.get('/task', task.index);
     app.get('/task/dashboard', task.index);
+    app.get('/tasks/list', task.list);
     app.get('/task/status', task.status);
     /* user routes */
     app.all('/user*', helper.AuthRequired);
+    app.all('/users*', helper.AuthRequired);
     app.get('/user/:id', user.index);
     app.get('/user/:id/dashboard', user.index);
+    app.get('/users/list', user.list);
     /* login routes */
     app.get('/login', user.authenticate_user);
     app.post('/login/local', user.do_authenticate);

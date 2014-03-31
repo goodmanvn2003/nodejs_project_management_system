@@ -3,6 +3,7 @@ var crypto = require('crypto');
 
 // Load models
 var User = require('../../models/user.js');
+var Project = require('../../models/project.js');
 
 
 exports.authenticate_user = function(req, res) {
@@ -21,12 +22,22 @@ exports.do_authenticate = function(req, res) {
         {
             if (user !== null && user !== undefined)
             {
-                // res.cookie('session_id', (crypto.createHash('sha256').update((new Date()).toUTCString())).digest('hex'), { expires: new Date(Date.now() + 900000), httpOnly: true })
-                req.session.session_id = (crypto.createHash('sha256').update((new Date()).toUTCString())).digest('hex');
-                req.session.user_id = user._id;
-                req.session.user_name = user.user_name;
-                req.session.user_role = user.role;
-                res.redirect('/task/dashboard');
+                Project.findOne({ users: {$in: [user._id] }, name: req.body.project }, function(err, project){
+                    if (project)
+                    {
+                        req.session.session_id = (crypto.createHash('sha256').update((new Date()).toUTCString())).digest('hex');
+                        req.session.user_id = user._id;
+                        req.session.user_name = user.user_name;
+                        req.session.user_role = user.role;
+                        req.session.project_id = project._id;
+                        req.session.project_name = project.name;
+                        res.redirect('/task/dashboard');
+                    } else
+                    {
+                        req.flash('error', 'Incorrect project ID');
+                        res.redirect('/login');
+                    }
+                })
             }
             else
             {
@@ -45,5 +56,9 @@ exports.do_logout = function(req, res) {
 }
 
 exports.index = function(req, res){
-    res.render('user/user_profile');
+    res.render('user/user_profile', { user_name : req.session.user_name, user_role : req.session.user_role, project_name: req.session.project_name });
+}
+
+exports.list = function(req, res){
+    res.render('user/users_list', { user_name : req.session.user_name, user_role : req.session.user_role, project_name: req.session.project_name });
 }

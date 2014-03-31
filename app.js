@@ -34,7 +34,10 @@ app.use(express.bodyParser({
 }));
 app.use(express.methodOverride());
 app.use(express.cookieParser('lordey'));
-app.use(express.session({ cookie: { maxAge: 3600000 }}));
+app.use(express.session({ cookie: {
+    // expires: new Date(Date.now() + 60 * 10000)
+    maxAge: null
+}}));
 app.use(flash());
 app.use(app.router);
 app.use(require('less-middleware')(path.join(__dirname, '/public')));

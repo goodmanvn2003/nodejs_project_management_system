@@ -1,0 +1,46 @@
+extends ../layout/task_layout
+
+block content
+    div
+        table(class="ink-table hover", style="background-color:white;")
+            thead(style="background-color:black;color:white;font-weight:bold;")
+                tr
+                    td UID
+                    td Login Name
+                    td Role
+                    td Description
+                    td Operations
+            tbody
+                tr
+                    td 0001
+                    td administrator
+                    td administrator
+                    td default administrator
+                    td
+                        a(href="#") edit
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        a(href="#") delete
+                tr
+                    td 0002
+                    td developer
+                    td developer
+                    td default developer
+                    td
+                        a(href="#") edit
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        a(href="#") delete
+
+        nav(class="ink-navigation")
+            ul(class="pagination")
+                li(class="previous disabled")
+                    a(href="#") Previous
+                li(class="active")
+                    a(href="#") 1
+                li
+                    a(href="#") 2
+                li
+                    a(href="#") 3
+                li
+                    a(href="#") 4
+                li(class="next")
+                    a(href="#") Next

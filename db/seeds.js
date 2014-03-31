@@ -5,6 +5,7 @@ console.log('Connecting to MongoDB');
 MongoClient.connect('mongodb://localhost/pm', function(err, db){
 
     db.collection('users').drop();
+    db.collection('projects').drop();
 
     db.collection('users').insert({
         user_name : 'admin',
@@ -20,24 +21,34 @@ MongoClient.connect('mongodb://localhost/pm', function(err, db){
         login_count : 0,
         created_at : (new Date()).getDate()
     }, function(err, result){
-        console.log('Done seeding MongoDB 1');
-    });
+        if (err) return;
 
-    db.collection('users').insert({
-        user_name : 'developer',
-        password_hash : (crypto.createHash('sha256').update('654321')).digest('hex'),
-        role : 'developer',
-        recovery_token : '',
-        user_details :
-        {
-            name : 'default developer',
-            email_address: 'default_developer@example.com'
-        },
-        description : 'default developer user',
-        login_count : 0,
-        created_at : (new Date()).getDate()
-    }, function(err, result){
-        db.close();
-        console.log('Done seeding MongoDB 2');
+        db.collection('users').insert({
+            user_name : 'developer',
+            password_hash : (crypto.createHash('sha256').update('654321')).digest('hex'),
+            role : 'developer',
+            recovery_token : '',
+            user_details :
+            {
+                name : 'default developer',
+                email_address: 'default_developer@example.com'
+            },
+            description : 'default developer user',
+            login_count : 0,
+            created_at : (new Date()).getDate()
+        }, function(err, result_2){
+
+            db.collection('projects').insert({
+                name: "default project",
+                start_date: new Date(),
+                end_date: null,
+                description: "default project description",
+                users: [result[0]._id],
+                tasks: new Array()
+            }, function(err, pResult){
+                db.close();
+                console.log('Done adding data to database');
+            });
+        });
     });
 });
