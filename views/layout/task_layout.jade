@@ -127,7 +127,7 @@ html
         div(class="ink-grid", style="max-width:none;padding-top:2em")
             div(class="column-group gutters")
                 div(class="large-20 medium-40 small-100")
-                    nav(class="ink-navigation", style="padding:24px")
+                    nav(class="ink-navigation", style="padding:24px 24px 24px 0")
                         ul(class="menu vertical orange rounded shadowed")
                             li(class=dashboard)
                                 a(href="/task")
@@ -145,26 +145,25 @@ html
                                                 i(class="icon-plus-sign")&nbsp;&nbsp;Create
                             // li
                                 a(href="#")
-                                    i(class="icon-calendar")&nbsp;&nbsp;Planning
+                                    i(class="icon-calendar")
+                                    span &nbsp;&nbsp;Planning
                             li
                                 a(href="#")
-                                    i(class="icon-tasks")&nbsp;&nbsp;Tasks
+                                    i(class="icon-tasks")
+                                    span &nbsp;&nbsp;Tasks
                                 ul(class="submenu dropdown")
                                     li
                                         a(href="/tasks/list")
                                             i(class="icon-list")&nbsp;&nbsp;List
                                     li
                                         a(href="#", id="create-task")
-                                            i(class="icon-plus-sign")&nbsp;&nbsp;Create
+                                            i(class="icon-plus-sign")
+                                            span &nbsp;&nbsp;Create
                             li(class=resource)
                                 a(href="/resource")
-                                    i(class="icon-cloud-upload")&nbsp;&nbsp;Files & Folders
+                                    i(class="icon-cloud-upload")
+                                    span &nbsp;&nbsp;Files & Folders
                 div(class="large-80 medium-60 small-100")
                     div(style="padding:10px")
-                        //div(class="own-alert-section")
-                        //    div(class="ink-alert block info")
-                        //        button(class="ink-dismiss")&times;
-                        //        h4 Inspection under way
-                        //        p This is a simple notification
                         div(style="margin-top:1em;")
                             block content
