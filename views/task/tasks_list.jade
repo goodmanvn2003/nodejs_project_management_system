@@ -5,9 +5,25 @@ block content
         .data-table tbody tr td {
             vertical-align: top;
         }
+
+        .th-black-white {
+            background-color:black;
+            color:white;
+            font-weight:bold;
+        }
+
+        .tf-black-white {
+            background-color:black;
+            color:white;
+            font-weight:bold;
+        }
+
+        .tf-black-white a {
+            color: white;
+        }
     div
-        table(class="data-table ink-table hover", style="background-color:white;")
-            thead(style="background-color:black;color:white;font-weight:bold;")
+        table(id="task-table", class="data-table ink-table hover", style="background-color:white;")
+            // thead
                 tr
                     td(width="3%") UID
                     td(width="10%") Name
@@ -19,7 +35,7 @@ block content
                     td(width="10%") Parent
                     td(width="10%") Artifacts
                     td(width="15%") Operations
-            tbody
+            // tbody
                 tr
                     td 0001
                     td
@@ -41,11 +57,11 @@ block content
                             option(value="filename") artifact.pdf
                             option(value="filename") someother_complex_artifact.pdf
                     td
-                        a(href="#") edit
+                        a(class="row-edit", href="#") edit
                         &nbsp;&nbsp;&nbsp;&nbsp;
-                        a(href="#") delete
+                        a(class="row-delete", href="#") delete
 
-        nav(class="ink-navigation")
+        // nav(class="ink-navigation")
             ul(class="pagination")
                 li(class="previous disabled")
                     a(href="#") Previous
@@ -53,3 +69,23 @@ block content
                     a(href="#") 1
                 li(class="next")
                     a(href="#") Next
+
+    script(type="text/javascript").
+        $(function(){
+
+            $("#task-table").tabler(
+                {
+                    update_el: '.row-edit',
+                    delete_el: '.row-delete',
+                    header_class: 'th-black-white',
+                    footer_class: 'tf-black-white',
+                    columns: [
+                        { name: 'uid', title: 'UID', width: '5%' },
+                        { name: 'name', title: 'Name', width: '15%' },
+                        { name: 'type', title: 'Type', width: '10%' },
+                        { name: 'description', title: 'Description', width: '20%' }
+                    ]
+                }
+            );
+
+        });
