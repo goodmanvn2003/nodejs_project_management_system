@@ -32,6 +32,7 @@ function load_routes(app) {
     app.post('/resource/upload', resource.upload);
     /* restful interface */
     app.get('/api/test', restful.test);
+    app.get('/api/tasks', restful.getTasks);
 }
 
 module.exports.LoadRoutes = load_routes;

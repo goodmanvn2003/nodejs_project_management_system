@@ -79,11 +79,41 @@ block content
                     delete_el: '.row-delete',
                     header_class: 'th-black-white',
                     footer_class: 'tf-black-white',
+                    data_url: '/api/tasks',
                     columns: [
-                        { name: 'uid', title: 'UID', width: '5%' },
-                        { name: 'name', title: 'Name', width: '15%' },
-                        { name: 'type', title: 'Type', width: '10%' },
-                        { name: 'description', title: 'Description', width: '20%' }
+                        { name: '_id', title: 'UID', width: '5%',
+                            format: function(data) {
+                                return data.substring(0, 9);
+                            }
+                        },
+                        { name: 'name', title: 'Name', type: "text", width: '15%' },
+                        { name: 'start_date', title: 'Start Date', type: "text", width: '10%',
+                            format: function(data) {
+                                return strftime('%B %d, %Y %H:%M:%S', new Date(Date.parse(data)));
+                            }
+                        },
+                        { name: 'end_date', title: 'End Date', type: "text", width: '20%', link: { enabled: true, to: '/api/tasks' },
+                            format: function(data) {
+                                return strftime('%B %d, %Y %H:%M:%S', new Date(Date.parse(data)));
+                            }
+                        },
+                        { name: 'priority', title: 'Priority',type: "select", list: [[0, 'low'],[1, 'normal'], [2, 'high']], width: '15%',
+                            format: function(data) {
+                                if (isNaN(data))
+                                    return '';
+                                else
+                                    switch(data) {
+                                        case 0:
+                                            return 'low';
+                                        case 1:
+                                            return 'normal';
+                                        case 2:
+                                            return 'high';
+                                        default:
+                                            return 'unspecified';
+                                    }
+                            }
+                        }
                     ]
                 }
             );
