@@ -1,16 +1,33 @@
 extends ../layout/task_layout
 
 block content
+    style(type="text/css").
+        .th-black-white {
+            background-color:black;
+            color:white;
+            font-weight:bold;
+        }
+
+        .tf-black-white {
+            background-color:black;
+            color:white;
+            font-weight:bold;
+        }
+
+        .tf-black-white a {
+            color: white;
+        }
+
     div
-        table(class="ink-table hover", style="background-color:white;")
-            thead(style="background-color:black;color:white;font-weight:bold;")
+        table(id="user-table", class="ink-table hover", style="background-color:white;")
+            // thead(style="background-color:black;color:white;font-weight:bold;")
                 tr
                     td UID
                     td Login Name
                     td Role
                     td Description
                     td Operations
-            tbody
+            // tbody
                 tr
                     td 0001
                     td administrator
@@ -30,7 +47,7 @@ block content
                         &nbsp;&nbsp;&nbsp;&nbsp;
                         a(href="#") delete
 
-        nav(class="ink-navigation")
+        // nav(class="ink-navigation")
             ul(class="pagination")
                 li(class="previous disabled")
                     a(href="#") Previous
@@ -44,3 +61,28 @@ block content
                     a(href="#") 4
                 li(class="next")
                     a(href="#") Next
+
+    script(type="text/javascript").
+        $(function(){
+
+            $("#user-table").tabler(
+                {
+                    update_el: '.row-edit',
+                    delete_el: '.row-delete',
+                    header_class: 'th-black-white',
+                    footer_class: 'tf-black-white',
+                    data_url: '/api/users',
+                    columns: [
+                        { name: '_id', title: 'UID', width: '5%',
+                            format: function(data) {
+                                return data.substring(data.length-9, data.length);
+                            }
+                        },
+                        { name: 'user_name', title: 'Login Name', type: "text", width: '15%' },
+                        { name: 'role', title: 'Role', type: "text", width: '10%' },
+                        { name: 'description', title: 'Description', type: "text", width: '20%', link: { enabled: true, to: '/api/tasks' } },
+                    ]
+                }
+            );
+
+        });

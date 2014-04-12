@@ -5,17 +5,19 @@
 
     $.fn.tabler = function(options) {
 
+        var _isLocked = false,
+            _isUpdatePending = false;
+
         function generateDataRow(tbody) {
-            console.log(cached);
             if (cached.length > 0)
             {
                 for(var i = 0; i < cached.length; i++)
                 {
                     /* Generate a row with a set of columns */
-                    var tr = $('<tr></tr>');
+                    var tr = $('<tr data-id="' + cached[i]._id + '"></tr>');
                     for (var j = 0; j < settings.columns.length; j++)
                     {
-                        tr.append($('<td></td>'));
+                        tr.append($('<td width="' + settings.columns[j].width + '"></td>'));
                     }
                     tr.append($('<td><a href="#" class="tabler-row-update">edit</a>&nbsp;&nbsp;&nbsp;<a href="#" class="tabler-row-delete">delete</a></td>'))
 
@@ -26,16 +28,22 @@
                         {
                             if (settings.columns[index].format != null && settings.columns[index].format != undefined)
                             {
+                                console.log(index);
+                                console.log(cached[i][k]);
                                 if (settings.columns[index].link == null || settings.columns[index].link == undefined)
-                                    $(tr.find('td')[index]).html('<span data-attr="value">' + settings.columns[index].format(cached[i][k]) + '</span>');
+                                    $(tr.find('td')[index]).html('<span data-attr="value">' + settings.columns[index].format(cached[i][k].replace(/\r\n|\n|\r/gm, '<br />')) + '</span>');
                                 else
-                                    $(tr.find('td')[index]).html(settings.columns[index].link.enabled == null || settings.columns[index].link.enabled == undefined || settings.columns[index].link.enabled == false ? '<span data-attr="value">' + settings.columns[index].format(cached[i][k]) + '</span>' : '<a data-attr="value" href="' + settings.columns[index].link.to + '">' + settings.columns[index].format(cached[i][k]) + '</a>');
+                                    $(tr.find('td')[index]).html(settings.columns[index].link.enabled == null || settings.columns[index].link.enabled == undefined || settings.columns[index].link.enabled == false ? '<span data-attr="value">' + settings.columns[index].format(cached[i][k].replace(/\r\n|\n|\r/gm, '<br />')) + '</span>' : '<a data-attr="value" href="' + settings.columns[index].link.to + '">' + settings.columns[index].format(cached[i][k].replace(/\r\n|\n|\r/gm, '<br />')) + '</a>');
                             }
                             else
+                            {
+                                console.log(index);
+                                console.log(cached[i][k]);
                                 if (settings.columns[index].link == null || settings.columns[index].link == undefined)
-                                    $(tr.find('td')[index]).html('<span data-attr="value">' + cached[i][k] + '</span>');
+                                    $(tr.find('td')[index]).html('<span data-attr="value">' + cached[i][k].replace(/\r\n|\n|\r/gm, '<br />') + '</span>');
                                 else
-                                    $(tr.find('td')[index]).html(settings.columns[index].link.enabled == null || settings.columns[index].link.enabled == undefined || settings.columns[index].link.enabled == false ? '<span data-attr="value">' + cached[i][k] + '</span>' : '<a data-attr="value" href="' + settings.columns[index].link.to +  '">' + cached[i][k] + '</a>');
+                                    $(tr.find('td')[index]).html(settings.columns[index].link.enabled == null || settings.columns[index].link.enabled == undefined || settings.columns[index].link.enabled == false ? '<span data-attr="value">' + cached[i][k].replace(/\r\n|\n|\r/gm, '<br />') + '</span>' : '<a data-attr="value" href="' + settings.columns[index].link.to +  '">' + cached[i][k].replace(/\r\n|\n|\r/gm, '<br />') + '</a>');
+                            }
                         }
                     }
                     /* Insert element to grid */
@@ -46,6 +54,22 @@
             {
                 tbody.append($('<tr><td colspan="' + (settings.columns.length+1) + '">No data</td></tr>'))
             }
+        }
+
+        function getData() {
+            tbody.html('');
+            $.get(settings.data_url, function(response) {
+                if (response.status == 'ok')
+                {
+                    cached = response.data;
+                    generateDataRow(tbody);
+                    console.log(tfoot.find("#total-page"));
+                    $(tfoot.find("#total-page")).text(response.meta.total);
+                } else
+                    console.error('[error] ' + response.status);
+            }).error(function(){
+                    console.error('[error] Unable to get data from specified data URL');
+                });
         }
 
         var defaults = {
@@ -96,11 +120,10 @@
         tfoot = el.find("tfoot:first");
         tfoot.append($('<tr class="' + settings.footer_class + '"></tr>'));
         var tftr = tfoot.find('tr:first');
-        tftr.append($('<td colspan="' + (settings.columns.length+1) + '"><span><a href="#" id="tabler-new-item">new</a></span>&nbsp;&nbsp;<span><a href="#" id="tabler-nav-previous">previous</a></span>&nbsp;&nbsp;&nbsp;<span id="tabler-pages"><a href="#">1</a></span>&nbsp;&nbsp;&nbsp;<span><a href="#" id="tabler-nav-next">next</a></span></td>'))
+        tftr.append($('<td colspan="' + (settings.columns.length+1) + '"><span><a href="#" id="tabler-new-item">new</a></span>&nbsp;&nbsp;&nbsp;<span>page:</span>&nbsp;&nbsp;<span id="tabler-pages"><input type="text" id="current-page" value="1" style="width:2em;background:none;outline:none;border:none;font-weight:bold;color:white;" />&nbsp;/&nbsp;<a id="total-page" href="#">10</a></span></td>'))
 
         /* Event Handlers */
         $(el).on('click', '#tabler-new-item', function(e) {
-            console.log(tbody.find('tr[data-attr=new-row]').length);
             if (tbody.find('tr[data-attr=new-row]').length < 1)
             {
                 var tr = $('<tr data-attr="new-row"></tr>');
@@ -111,13 +134,31 @@
                     switch(settings.columns[i].type)
                     {
                         case 'text':
-                            ttd.append('<input type="text" data-attr="value" />');
+                            ttd.append('<input type="text" data-attr="value" style="width:100%;"/>');
+                            break;
+                        case 'textarea':
+                            console.log('hit here');
+                            ttd.append('<textarea style="width:100%;" data-attr="value" rows="6"></textarea>');
                             break;
                         case 'select':
-                            var tselect = $('<select></select>');
-                            for (var j = 0; j < settings.columns[i].list.length; j++)
+                            var tselect = $('<select style="width:100%;"></select>');
+                            if (settings.columns[i].list != null && settings.columns[i].list != undefined)
                             {
-                                tselect.append($('<option value="' + settings.columns[i].list[j][1] + '">' + settings.columns[i].list[j][1] + '</option>'))
+                                for (var j = 0; j < settings.columns[i].list.length; j++)
+                                {
+                                    tselect.append($('<option value="' + settings.columns[i].list[j][0] + '">' + settings.columns[i].list[j][1] + '</option>'));
+                                }
+                            } else if (settings.columns[i].list_src != null && settings.columns[i].list_src != undefined)
+                            {
+                                $.get(settings.columns[i].list_src, function(response){
+                                    if (response.status == 'ok')
+                                    {
+                                        for (var j = 0; j < response.data.length; j++)
+                                        {
+                                            tselect.append($('<option value="' + response.data[j][0] + '">' + response.data[j][1] + '</option>'));
+                                        }
+                                    }
+                                });
                             }
                             ttd.append(tselect);
                             break;
@@ -133,20 +174,25 @@
 
         $(el).on('click', '.tabler-row-update', function(e){
             e.stopPropagation();
+            var parent = $(this).parents('tr:first'),
+                tds = $(parent).find('td');
+            var object = new Object();
+            object['meta'] = new Object();
+            object['data'] = new Object();
+            object['meta']['id'] = $($(this).parents('tr:first')).attr('data-id');
 
             var state = $(this).text();
             if (state == "edit")
             {
                 $(this).text("save");
                 state = "save";
-            } else
+                _isLocked = true;
+            } else if (state == "save")
             {
                 $(this).text("edit");
                 state = "edit";
+                _isLocked = false;
             }
-
-            var parent = $(this).parents('tr:first'),
-                tds = $(parent).find('td');
 
             for (var i = 0; i < settings.columns.length; i++)
             {
@@ -171,12 +217,21 @@
                                     $(tds[i]).find('[data-attr=edit]').show();
                                 }
                                 break;
-                            case 'select':
-                                var select = $('<select></select>');
-                                for (var j = 0; j < settings.columns[i].list.length; j++)
+                            case 'textarea':
+                                if ($(tds[i]).find('[data-attr=edit]').length == 1)
                                 {
-                                    select.append($('<option value="' + settings.columns[i].list[j][1] + '">' + settings.columns[i].list[j][1] + '</option>'))
+                                    $(tds[i]).find('[data-attr=edit] textarea')[0].value = $(tds[i]).find('[data-attr=value]')[0].innerText;
+                                    $(tds[i]).find('[data-attr=edit]').show();
+                                } else
+                                {
+                                    $(tds[i]).find('[data-attr=edit]').remove();
+                                    $(tds[i]).append('<span data-attr="edit"><textarea style="width:100%;" rows="6" /></span>');
+                                    $(tds[i]).find('[data-attr=edit] textarea')[0].value = $(tds[i]).find('[data-attr=value]')[0].innerText;
+                                    $(tds[i]).find('[data-attr=edit]').show();
                                 }
+                                break;
+                            case 'select':
+                                var select = $('<select style="width:100%;"></select>');
 
                                 if ($(tds[i]).find('[data-attr=edit]').length == 1)
                                 {
@@ -189,7 +244,31 @@
 
                                     $(tds[i]).find('[data-attr=edit]').remove();
                                     $(tds[i]).append(span);
-                                    $(tds[i]).find('[data-attr=edit] select')[0].value = $(tds[i]).find('[data-attr=value]')[0].innerText;
+
+                                    var value_elem =  $(tds[i]).find('[data-attr=value]')[0];
+
+                                    if (settings.columns[i].list != null && settings.columns[i].list != undefined)
+                                    {
+                                        for (var j = 0; j < settings.columns[i].list.length; j++)
+                                        {
+                                            select.append($('<option value="' + settings.columns[i].list[j][0] + '">' + settings.columns[i].list[j][1] + '</option>'));
+                                        }
+                                    } else if (settings.columns[i].list_src != null && settings.columns[i].list_src != undefined)
+                                    {
+                                        $.get(settings.columns[i].list_src, function(response){
+                                            if (response.status == 'ok')
+                                            {
+                                                for (var j = 0; j < response.data.length; j++)
+                                                {
+                                                    select.append($('<option value="' + response.data[j][0] + '">' + response.data[j][1] + '</option>'));
+                                                }
+
+                                                console.log(value_elem);
+                                                $(select).val($(value_elem).text());
+                                            }
+                                        });
+                                    }
+
                                     $(tds[i]).find('[data-attr=edit]').show();
                                 }
                                 break;
@@ -201,15 +280,25 @@
                         switch(settings.columns[i].type)
                         {
                             case 'text':
-                                $(tds[i]).find('[data-attr=value]')[0].innerText = $(tds[i]).find('[data-attr=edit] input')[0].value;
+                                $(tds[i]).find('[data-attr=value]')[0].innerText = (settings.columns[i].format != null && settings.columns[i].format != undefined) ? settings.columns[i].format($(tds[i]).find('[data-attr=edit] input')[0].value) : $(tds[i]).find('[data-attr=edit] input')[0].value;
                                 $(tds[i]).find('[data-attr=value]').show();
                                 $(tds[i]).find('[data-attr=edit]').hide();
+
+                                object['data'][settings.columns[i].name] = $(tds[i]).find('[data-attr=edit] input')[0].value;
+                                break;
+                            case 'textarea':
+                                $(tds[i]).find('[data-attr=value]')[0].innerText = $(tds[i]).find('[data-attr=edit] textarea')[0].value;
+                                $(tds[i]).find('[data-attr=value]').show();
+                                $(tds[i]).find('[data-attr=edit]').hide();
+
+                                object['data'][settings.columns[i].name] = $(tds[i]).find('[data-attr=edit] textarea')[0].value;
                                 break;
                             case 'select':
-                                console.log($(tds[i]).find('[data-attr=edit] select')[0].value);
                                 $(tds[i]).find('[data-attr=value]')[0].innerText = $(tds[i]).find('[data-attr=edit] select')[0].value;
                                 $(tds[i]).find('[data-attr=value]').show();
                                 $(tds[i]).find('[data-attr=edit]').hide();
+
+                                object['data'][settings.columns[i].name] = $(tds[i]).find('[data-attr=edit] select')[0].value;
                                 break;
                             default:
                                 break;
@@ -217,10 +306,30 @@
                     }
                 }
             }
+
+            if (state == 'edit')
+            {
+                $.post(settings.update_url, { data: object }, function(response){
+                    if (response.status == 'ok')
+                    {
+                    }
+                    else
+                    {
+                        console.error('[error] There was an error when updating');
+                    }
+                });
+            }
         });
 
         $(el).on('click', '.tabler-new-row-save', function(e){
-            alert('saving new row');
+            if (settings.create_url != null || settings.create_url != undefined)
+                console.error('[error] Create url has not been specified');
+            else
+            {
+                $.post(settings.create_url, {}, function(response){
+
+                });
+            }
         });
 
         $(el).on('click', '.tabler-new-row-delete', function(e){
@@ -229,6 +338,9 @@
 
         $(el).on('click', '.tabler-row-delete', function(e){
             e.stopPropagation();
+            var _elem = $($(this).parents('tr:first'));
+            var _id = _elem.attr('data-id');
+
             var dialogResult = confirm('Are you sure?');
             if (dialogResult)
             {
@@ -236,10 +348,10 @@
                     console.error('[error] Delete url has not been specified');
                 else
                 {
-                    $.post(settings.delete_url, {}, function(response) {
-                        if (response.status == 'success')
+                    $.post(settings.delete_url, { id: _id }, function(response) {
+                        if (response.status == 'ok')
                         {
-
+                            getData();
                         } else
                             console.err('[error] The request was not successful');
                     }).error(function(){
@@ -248,7 +360,19 @@
                 }
             }
             else
-                alert('cancelled');
+            {}
+        });
+
+        $(tfoot).on('change','#current-page', function(e){
+            e.stopPropagation();
+
+            console.log('page changed');
+            if ($(this).val().length == 0)
+                $(this).val('1');
+            else
+            {
+
+            }
         });
 
         // Populate data from data URL
@@ -256,16 +380,7 @@
             console.error('[error] Data URL is required');
         else
         {
-            $.get(settings.data_url, function(response) {
-                if (response.status == 'ok')
-                {
-                    cached = response.data;
-                    generateDataRow(tbody);
-                } else
-                    console.error('[error] ' + response.status);
-            }).error(function(){
-                console.error('[error] Unable to get data from specified data URL');
-            });
+            getData();
         }
 
 

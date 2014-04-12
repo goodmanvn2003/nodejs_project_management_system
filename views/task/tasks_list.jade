@@ -23,52 +23,6 @@ block content
         }
     div
         table(id="task-table", class="data-table ink-table hover", style="background-color:white;")
-            // thead
-                tr
-                    td(width="3%") UID
-                    td(width="10%") Name
-                    td(width="5%") Type
-                    td(width="15%") Description
-                    td(width="10%") Time Left
-                    td(width="10%") Due Date
-                    td(width="10%") Assignee
-                    td(width="10%") Parent
-                    td(width="10%") Artifacts
-                    td(width="15%") Operations
-            // tbody
-                tr
-                    td 0001
-                    td
-                        a(href="#") default task
-                    td feature
-                    td default task description
-                    td 02:15:39
-                    td 09:30 12/23/2013
-                    td N/A
-                    td N/A
-                    td
-                        ul(style="list-style-type:none;margin:0;padding:0;")
-                            li
-                                a(href="#") artifact.pdf
-                            li
-                                a(href="#") artifact_2.pdf
-                        select(class="artifacts", data-id="taskid", style="display:none;")
-                            option(value="") (unselected)
-                            option(value="filename") artifact.pdf
-                            option(value="filename") someother_complex_artifact.pdf
-                    td
-                        a(class="row-edit", href="#") edit
-                        &nbsp;&nbsp;&nbsp;&nbsp;
-                        a(class="row-delete", href="#") delete
-
-        // nav(class="ink-navigation")
-            ul(class="pagination")
-                li(class="previous disabled")
-                    a(href="#") Previous
-                li(class="active")
-                    a(href="#") 1
-                li(class="next")
-                    a(href="#") Next
 
     script(type="text/javascript").
         $(function(){
@@ -80,6 +34,8 @@ block content
                     header_class: 'th-black-white',
                     footer_class: 'tf-black-white',
                     data_url: '/api/tasks',
+                    update_url: '/api/task/update',
+                    delete_url: '/api/task/delete',
                     columns: [
                         { name: '_id', title: 'UID', width: '5%',
                             format: function(data) {
@@ -87,33 +43,19 @@ block content
                             }
                         },
                         { name: 'name', title: 'Name', type: "text", width: '15%' },
-                        { name: 'start_date', title: 'Start Date', type: "text", width: '10%',
+                        { name: 'start_date', title: 'Start Date', type: "text", width: '15%',
                             format: function(data) {
                                 return strftime('%B %d, %Y %H:%M:%S', new Date(Date.parse(data)));
                             }
                         },
-                        { name: 'end_date', title: 'End Date', type: "text", width: '20%', link: { enabled: true, to: '/api/tasks' },
+                        { name: 'end_date', title: 'End Date', type: "text", width: '15%', link: { enabled: true, to: '/api/tasks' },
                             format: function(data) {
                                 return strftime('%B %d, %Y %H:%M:%S', new Date(Date.parse(data)));
                             }
                         },
-                        { name: 'priority', title: 'Priority',type: "select", list: [[0, 'low'],[1, 'normal'], [2, 'high']], width: '15%',
-                            format: function(data) {
-                                if (isNaN(data))
-                                    return '';
-                                else
-                                    switch(data) {
-                                        case 0:
-                                            return 'low';
-                                        case 1:
-                                            return 'normal';
-                                        case 2:
-                                            return 'high';
-                                        default:
-                                            return 'unspecified';
-                                    }
-                            }
-                        }
+                        { name: 'priority', title: 'Priority',type: "select", list: [['low', 'low'],['normal', 'normal'], ['high', 'high']], width: '15%' },
+                        { name: 'details', title: 'Details', type: "textarea", width: '20%' },
+                        { name: 'user', title: 'Assignee', type: "select", list_src: '/api/users?type=tabler', width: '10%' }
                     ]
                 }
             );

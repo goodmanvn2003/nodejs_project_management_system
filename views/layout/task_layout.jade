@@ -16,112 +16,11 @@ html
     script(type='text/javascript', src='/javascripts/vendor/flot/jquery.flot.min.js')
     script(type='text/javascript', src='/javascripts/vendor/flot/jquery.flot.pie.min.js')
     script(type='text/javascript', src='/javascripts/vendor/strftime.min.js')
+    script(type='text/javascript').
+        $(function(){
+            $
+        });
   body
-    // Task Creation Dialog
-    div(class="ink-shade")
-        div(class="ink-modal", data-trigger="#create-task", data-width="562px", data-height="866px")
-            div(class="modal-header")
-                strong(style="font-size:2em") Create a new task
-            div(class="modal-body")
-                form(action="#", class="ink-form")
-                    fieldset
-                        legend General Information
-                        div(class="control-group required validation", style="margin-top: 6px")
-                            label(for="text-input") Name
-                            div(class="control")
-                                input(id="new-task-name", type="text", placeholder="name of the task")
-                            p(class="tip") This field is required
-                        div(class="control-group required validation")
-                            label(for="text-input") Description
-                            div(class="control")
-                                textarea(id="new-task-description", placeholder="description of the task", style="height:128px")
-                            p(class="tip") This field is required
-                    fieldset(class="column-group")
-                        legend Configuration
-                        div(class="control-group", style="margin-top: 6px")
-                            label(for="text-input") Parent Task
-                            div(class="control")
-                                input(type="text", id="new-task-start-date", placeholder="parent task id")
-                        div(class="control-group required validation", style="margin-top: 6px")
-                            label(for="text-input") Start Date
-                            div(class="control")
-                                input(type="text", id="new-task-start-date", placeholder="mm/dd/yyyy")
-                        div(class="control-group")
-                            label(for="text-input") End Date
-                            div(class="control")
-                                input(type="text", id="new-task-end-date", placeholder="mm/dd/yyyy")
-                    fieldset
-                        legend Priority
-                        div(class="control-group", style="margin-top: 6px")
-                            ul(class="control unstyled inline")
-                                li
-                                    input(type="radio", id="new-task-high", name="new-task-priority", value="high")
-                                    label(for="new-task-high") High
-                                li
-                                    input(type="radio", id="new-task-normal", checked="checked", name="new-task-priority", value="normal")
-                                    label(for="new-task-normal") Normal
-                                li
-                                    input(type="radio", id="new-task-low", name="new-task-priority", value="low")
-                                    label(for="new-task-low") Low
-            div(class="modal-footer")
-                div(class="push-right")
-                    button(class="ink-button blue") Confirm
-                    button(class="ink-button red ink-dismiss") Cancel
-
-    // User Creation Dialog
-    div(class="ink-shade")
-        div(class="ink-modal", data-trigger="#create-user", data-width="562px", data-height="866px")
-            div(class="modal-header")
-                strong(style="font-size:2em") Create a new user
-            div(class="modal-body")
-                form(action="#", class="ink-form")
-                    fieldset
-                        legend General Information
-                        div(class="control-group required validation", style="margin-top: 6px")
-                            label(for="text-input") Name
-                            div(class="control")
-                                input(id="new-user-name", type="text", placeholder="enter real name")
-                            p(class="tip") This field is required
-                        div(class="control-group required validation")
-                            label(for="text-input") Email Address
-                            div(class="control")
-                                input(id="new-user-email-address", type="text", placeholder="enter real email address")
-                            p(class="tip") This field is required
-                        div(class="control-group")
-                            label(for="text-input") Description
-                            div(class="control")
-                                textarea(id="new-user-description", placeholder="enter description", style="height:128px")
-                            p(class="tip") This field is required
-                    fieldset(class="column-group")
-                        legend Login Credential
-                        div(class="control-group required validation", style="margin-top: 6px")
-                            label(for="text-input") Login Name
-                            div(class="control")
-                                input(id="new-user-login-name", type="text", placeholder="enter login name")
-                            p(class="tip") This field is required; spaces are not permitted
-                        div(class="control-group required validation")
-                            label(for="text-input") Password
-                            div(class="control")
-                                input(id="new-user-password", type="password", placeholder="enter password")
-                            p(class="tip") This field is required; spaces are not permitted
-                    fieldset
-                        legend Role
-                        div(class="control-group", style="margin-top: 6px")
-                            ul(class="control unstyled inline")
-                                li
-                                    input(type="radio", id="new-user-role-administrator", name="new-user-role", value="administrator")
-                                    label(for="new-user-role-administrator") Administrator
-                                li
-                                    input(type="radio", id="new-user-role-developer", checked="checked", name="new-user-role", value="developer")
-                                    label(for="new-user-role-developer") Developer
-                                li
-                                    input(type="radio", id="new-user-role-observer", name="new-user-role", value="observer")
-                                    label(for="new-user-role-observer") Observer
-            div(class="modal-footer")
-                div(class="push-right")
-                    button(class="ink-button blue") Confirm
-                    button(class="ink-button red ink-dismiss") Cancel
-
     div
         // header
         include _header
@@ -142,9 +41,6 @@ html
                                         li
                                             a(href="/users/list")
                                                 i(class="icon-list")&nbsp;&nbsp;List
-                                        li
-                                            a(href="#", id="create-user")
-                                                i(class="icon-plus-sign")&nbsp;&nbsp;Create
                             // li
                                 a(href="#")
                                     i(class="icon-calendar")
@@ -157,10 +53,6 @@ html
                                     li
                                         a(href="/tasks/list")
                                             i(class="icon-list")&nbsp;&nbsp;List
-                                    li
-                                        a(href="#", id="create-task")
-                                            i(class="icon-plus-sign")
-                                            span &nbsp;&nbsp;Create
                             li(class=resource)
                                 a(href="/resource")
                                     i(class="icon-cloud-upload")

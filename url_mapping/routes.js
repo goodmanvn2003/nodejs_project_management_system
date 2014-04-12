@@ -32,7 +32,11 @@ function load_routes(app) {
     app.post('/resource/upload', resource.upload);
     /* restful interface */
     app.get('/api/test', restful.test);
+    app.get('/api/users', restful.getUsers);
     app.get('/api/tasks', restful.getTasks);
+    app.get('/api/projects', restful.getProjects);
+    app.post('/api/task/update', restful.updateTask);
+    app.post('/api/task/delete', restful.deleteTask);
 }
 
 module.exports.LoadRoutes = load_routes;

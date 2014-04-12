@@ -5,8 +5,10 @@ var taskSchema = new Schema({
     name: String,
     start_date : Date,
     end_date: Date,
-    priority: Number,
-    user: { type: Schema.Types.ObjectId, ref: 'User' }
+    priority: String,
+    details: String,
+    user: String
+    // user: { type: Schema.Types.ObjectId, ref: 'User' }
 });
 
 module.exports = mongoose.model('Task', taskSchema);
